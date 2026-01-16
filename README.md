@@ -1,305 +1,244 @@
-# TeamInsight – README
+# TeamInsight
 
-## Contents
-1. Project Structure
-2. Quick Start: Environment & Dependencies
-3. Database Entities
-4. Database Entity Relationships
-5. Constraints
-6. Backend (API & Infrastructure)
-7. Data Flow (Backend to Frontend)
-8. AI (Gemini): Free Chat & Guided Reflection
-9. Lecturer Client-Side Architecture
+TeamInsight is a full-stack web platform for **student project teams** and a **lecturer/admin**. It supports:
+- Team sign-in via a **signed httpOnly cookie session**
+- **Team ↔ Lecturer messaging** (threads)
+- Gemini-powered AI: **Free Chat** and **Guided Reflection** (saved to the database)
+- Lecturer tools: teams overview, announcements, alerts, and analytics
 
 ---
 
-## 1. Project Structure
+## 🚀 Fast Setup (Local Run)
 
-### Frontend (UI & Pages)
-- `app/`
-- `app/lecturer/`
-- `app/team/`
+> **Important:** To run the app locally, this repository must include the runnable Next.js source code (e.g., `package.json`, `app/`, `lib/`, `models/`).
+>
+> If you cloned the repo and only see `Diagrams/` + `README.md`, you are looking at a **documentation-only snapshot**. In that case, you cannot run the app until the code is added (or until you switch to the branch/tag that contains the full project).
 
-### Backend (API Routes – Next.js App Router)
-- `app/api/`
+### Prerequisites
+- **Node.js** (recommended: LTS)
+- **npm**
+- **MongoDB** (MongoDB Atlas or local MongoDB)
+- **Gemini API key** (required for AI features)
+- (Optional) Gmail SMTP credentials (only if email notifications are enabled)
 
-### Backend External API (Infrastructure & Data Access)
-- `lib/`
-  - `lib/db.js` (MongoDB connection via Mongoose)
-  - `lib/teamSession.js` (team session cookie signing/verification)
-  - `lib/ai/`
-    - `lib/ai/gemini.ts` (Gemini runtime wrapper)
-    - `lib/ai/prompts.ts` (prompts)
-  - `lib/reflection/questions.ts` (reflection questions order)
-- `models/` (Mongoose schemas / collections)
+### 1) Clone
+```bash
+git clone https://github.com/evyathar/TeamInsight.git
+cd TeamInsight
+```
 
-### Database
-- MongoDB Atlas (remote) accessed via Mongoose
+### 2) Install dependencies
+```bash
+npm install
+```
 
----
+### 3) Create environment file
+Create **`.env.local`** in the project root (same level as `package.json`).
 
-## 2. Quick Start: Environment & Dependencies
+You can copy from `.env.example`:
+```bash
+cp .env.example .env.local
+```
 
-Open the project root in VS Code (`teaminsight`) and run:
+### 4) Fill `.env.local`
+```env
+# =====================================================
+# DATABASE
+# =====================================================
+MONGODB_URI=
 
-1. `npm install`
-2. `npm run dev`
+# =====================================================
+# AI / GEMINI
+# =====================================================
+GEMINI_API_KEY=
 
-First page: `http://localhost:3000`  
-Choose **Lecturer** or **Team**.
+# =====================================================
+# SESSION SECURITY
+# =====================================================
+TEAM_SESSION_SECRET=
 
----
+# =====================================================
+# EMAIL (Gmail SMTP)
+# =====================================================
+MAIL_USER=
+MAIL_PASS=
+```
 
-## 3. Database Entities
+### 5) Run
+```bash
+npm run dev
+```
 
-### Lecturer
-**Description:** Represents the system administrator (lecturer) for authentication and receiving alerts.
-- `_id`
-- `email`
-- `passwordHash`
-- `createdAt`
-
-### Team
-**Description:** Represents a single project team. All interactions are performed at the team level.
-- `_id`
-- `teamId`
-- `projectName`
-- `accessCode`
-- `contactEmail`
-- `members: [{ memberId, displayName }]`
-- `status`
-- `createdAt`
-
-### ReflectionChatSession
-**Description:** Represents a guided reflection conversation session (session per tab).
-- `_id`
-- `teamId`
-- `sessionId`
-- `status` (`in_progress` / `ready_to_submit` / `submitted`)
-- `currentIndex`
-- `messages: [{ role, text, createdAt }]`
-- `answers: [{ questionId, prompt, answer, createdAt }]`
-- `aiSummary`
-- `createdAt`
-- `updatedAt`
-
-### Alert
-**Description:** Represents an abnormal system event and maintains alert history and email notification tracking.
-- `_id`
-- `teamId`
-- `severity`
-- `message`
-- `emailTo`
-- `emailStatus`
-- `createdAt`
-
-### Announcement
-**Description:** Used to publish announcements or tasks from the lecturer to the teams.
-- `_id`
-- `title`
-- `body`
-- `targetTeams`
-- `createdAt`
-
-### MessageThread
-**Description:** Represents a thread between a team and the lecturer (mail/board style).
-- `_id`
-- `teamId`
-- `subject`
-- `lastMessageAt`
-- `lastMessageText`
-- `lastMessageRole` (`team` / `lecturer`)
-- `unreadForTeam`
-- `unreadForLecturer`
-- `status` (`open` / `closed`)
-- `createdAt`
-- `updatedAt`
-
-### MessageMessage
-**Description:** Represents a single message inside a thread.
-- `_id`
-- `threadId`
-- `teamId`
-- `role` (`team` / `lecturer`)
-- `text`
-- `createdAt`
+Open:
+- http://localhost:3000
 
 ---
 
-## 4. Database Entity Relationships
+## Environment Variables (Detailed)
 
-- **Team → ReflectionChatSession** (One-to-Many)  
-  A single team can have multiple guided reflection sessions (including parallel tabs via `sessionId`).
+### `MONGODB_URI` (Required)
+MongoDB connection string.
 
-- **Team → Alert** (One-to-Many)  
-  Each team can have a history of alerts.
+**Two common approaches:**
+1) **MongoDB Atlas (recommended for reviewers)**
+   - Pros: no local DB install, consistent across machines
+   - Cons: requires Atlas setup + network allowlist
+2) **Local MongoDB**
+   - Pros: works offline, quick for personal development
+   - Cons: reviewers must install MongoDB locally
 
-- **Announcement → Team** (Broadcast)  
-  An announcement can target all teams or a selected list.
+Examples:
+- Atlas:
+  - `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbName>?retryWrites=true&w=majority`
+- Local:
+  - `mongodb://127.0.0.1:27017/teaminsight`
 
-- **Team → MessageThread** (One-to-Many)  
-  A team can have multiple message threads.
+### `GEMINI_API_KEY` (Required for AI)
+Gemini API key used for AI endpoints (Free Chat + Guided Reflection).
 
-- **MessageThread → MessageMessage** (One-to-Many)  
-  A thread contains multiple messages.
+If missing/invalid:
+- the app may still start, but AI features will fail (depending on how routes are guarded).
 
----
+### `TEAM_SESSION_SECRET` (Required)
+Secret used to sign/verify the `team_session` httpOnly cookie.
 
-## 5. Constraints
+Generate a strong secret:
 
-- `Team.teamId` must be unique.
-- `memberId` must be unique within a specific team.
-- Only one reflection is allowed per `teamId + memberId` within a defined time period (application-level rule).
-- The system contains a single lecturer.
-- Only one chat session is allowed per team (`teamId` is unique in ChatSession).
+**Option A (Node, cross-platform):**
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
 
-ReflectionChatSession constraints:
-- (`teamId`, `sessionId`) is unique (session per tab).
-- `currentIndex` controls which reflection question is active.
+**Option B (OpenSSL):**
+```bash
+openssl rand -base64 32
+```
 
-Messages constraints:
-- `MessageThread.teamId` is required and indexed.
-- `MessageMessage.threadId` is required.
+### `MAIL_USER` / `MAIL_PASS` (Optional)
+Used for Gmail SMTP email notifications.
 
----
-
-## 6. Backend (API & Infrastructure)
-
-### Backend Overview
-The backend is implemented using the Next.js App Router.  
-The backend is responsible for:
-- Connecting to MongoDB (Mongoose)
-- Handling business logic
-- Exposing API endpoints for the frontend
-- Gemini integration for AI features
-
-### Team authentication (cookie session)
-After a successful `POST /api/team/join`, the server sets an httpOnly cookie named `team_session`.  
-This cookie is used to authenticate subsequent team requests (e.g., `GET /api/team/me`).  
-Session signing/verification is implemented in `lib/teamSession.js`.
-
-### Implemented API Routes
-
-#### 1. Authentication
-- **POST `/api/lecturer/login`**
-
-#### 2. Team (cookie auth)
-- **POST `/api/team/join`**
-- **GET `/api/team/me`**
-
-#### 3. Team AI (Gemini)
-- **POST `/api/team/ai/free`**
-- **POST `/api/team/ai/feedback`**
-
-#### 4. Guided Reflection
-- **POST `/api/team/reflection/start`**
-- **POST `/api/team/reflection/message`**
-- **POST `/api/team/reflection/submit`**
-
-#### 5. Team Messages
-- **GET `/api/team/messages`**
-- **POST `/api/team/messages`**
-- **GET `/api/team/messages/[threadId]`**
-- **POST `/api/team/messages/[threadId]`**
-
-#### 6. Teams (lecturer/admin view)
-- **GET `/api/teams`**
-- **GET `/api/teams/[teamId]`**
-- **PUT `/api/teams/[teamId]`**
-- **GET `/api/teams/[teamId]/insights`**
-- **GET `/api/teams/[teamId]/chat`**
-- **POST `/api/teams/[teamId]/chat`**
-- **GET `/api/teams/[teamId]/reflections`**
-- **GET `/api/teams/[teamId]/alerts`**
-
-#### 7. Reflections
-- **POST `/api/reflections`**
-
-#### 8. Alerts
-- **POST `/api/alerts`**
-
-#### 9. Announcements
-- **POST `/api/announcements`**
-- **GET `/api/announcements`**
-
-#### 10. Analytics
-- **GET `/api/analytics/teams`**
-- **GET `/api/analytics/compare`**
-
-### API Behavior (Common to All Routes)
-Each API route:
-1. Receives an HTTP request (GET / POST / PUT)
-2. Validates input data
-3. Uses the relevant Mongoose models
-4. Communicates with MongoDB via Mongoose
-5. Returns a structured JSON response
+**Two approaches:**
+1) **Enable email**
+   - Pros: full feature coverage if the app sends notifications
+   - Cons: requires Gmail configuration (recommended: 2FA + App Password)
+2) **Disable email**
+   - Pros: simpler setup for reviewers
+   - Cons: email notifications won’t be sent
 
 ---
 
-## 7. Data Flow (Backend to Frontend) 
+## System Overview
 
-### How the system works
-1. The frontend sends an HTTP request to an API endpoint.
-2. The matching API route in `app/api/.../route.*` is executed.
-3. The route uses the relevant Mongoose model to apply business logic.
-4. Mongoose reads/writes data in MongoDB.
-5. A JSON response is returned to the frontend.
+### Team Portal
+- Join using `teamId + accessCode`
+- Free AI chat
+- Guided reflection flow (server-controlled question order, persisted to DB)
+- Messages (threads) between team and lecturer
 
-**In general:**  
-Frontend → Backend → Database → Backend → Frontend
-
-**In this project:**  
-Frontend → Next.js API Route → Mongoose → MongoDB → API Response → Frontend
+### Lecturer/Admin Portal
+- Login (single lecturer concept)
+- Teams overview + team details
+- Insights / analytics
+- Alerts and announcements
+- Message threads with teams
 
 ---
 
-## 8. AI (Gemini): Free Chat & Guided Reflection
+## Architecture (High-Level)
 
-The system supports two Gemini-based experiences for teams:
+- **Next.js App Router** provides both UI and API routes
+- **MongoDB + Mongoose** for persistence
+- **Team authentication** via signed httpOnly cookie (`team_session`)
+- **Gemini** integration for AI flows
 
-### A) Team Free Chat
-**Goal:** Free-form team conversation (practical advice, daily collaboration issues, process improvements).  
-**UI:** `/team/chat`  
-**API:** `POST /api/team/ai/free`  
-**Behavior:** The AI may answer directly; if essential context is missing, it asks one clarifying question.  
-**State:** Per-tab UI state (refresh resilience is handled by the client). Closing the tab/window may end the chat.
+### Team Authentication (Cookie Session)
+After a successful `POST /api/team/join`, the server sets an httpOnly cookie named `team_session`.
+Subsequent requests (e.g., `GET /api/team/me`) validate that cookie.
 
-### B) Guided Reflection (DB-driven)
-**Goal:** A structured reflection flow with fixed question ordering.  
-**UI:** `/team/reflection`  
-**API:**
+---
+
+## Data Model (MongoDB)
+
+Core entities:
+- **Lecturer**: system admin (auth, receives alerts)
+- **Team**: team identity + access code + members + status
+- **ReflectionChatSession**: guided reflection session per tab (`sessionId`), messages, answers, summary, status
+- **Alert**: abnormal event history + email tracking
+- **Announcement**: lecturer broadcasts tasks/updates
+- **MessageThread**: a thread between team and lecturer
+- **MessageMessage**: single message inside a thread
+
+Relationships:
+- Team → ReflectionChatSession (1:N)
+- Team → Alert (1:N)
+- Announcement → Team (broadcast / target list)
+- Team → MessageThread (1:N)
+- MessageThread → MessageMessage (1:N)
+
+---
+
+## API Routes (Overview)
+
+### Auth
+- `POST /api/lecturer/login`
+
+### Team (cookie auth)
+- `POST /api/team/join`
+- `GET  /api/team/me`
+
+### Team AI (Gemini)
+- `POST /api/team/ai/free`
+- `POST /api/team/ai/feedback`
+
+### Guided Reflection
 - `POST /api/team/reflection/start`
 - `POST /api/team/reflection/message`
 - `POST /api/team/reflection/submit`
 
-**Flow control:** The server/database controls progression using:
-- `currentIndex` stored in `ReflectionChatSession`
-- `REFLECTION_QUESTIONS` from `lib/reflection/questions.ts`
+### Team Messages
+- `GET  /api/team/messages`
+- `POST /api/team/messages`
+- `GET  /api/team/messages/[threadId]`
+- `POST /api/team/messages/[threadId]`
 
-**Session per tab:** Each tab uses a unique `sessionId` (parallel reflections are supported).  
-**Persistence:** Stored in MongoDB (answers, status, summary) for later insights.
+### Lecturer / Admin (Teams)
+- `GET  /api/teams`
+- `GET  /api/teams/[teamId]`
+- `PUT  /api/teams/[teamId]`
+- `GET  /api/teams/[teamId]/insights`
+- `GET  /api/teams/[teamId]/chat`
+- `POST /api/teams/[teamId]/chat`
+- `GET  /api/teams/[teamId]/reflections`
+- `GET  /api/teams/[teamId]/alerts`
 
-### Prompts and Gemini runtime
-- `lib/ai/prompts.ts` – prompts are written in English; assistant output is Hebrew.
-- `lib/ai/gemini.ts` – Gemini wrapper and helper functions used by API routes.
-- `lib/reflection/questions.ts` – reflection questions list/order used by the server.
+### Announcements / Alerts / Analytics
+- `POST /api/announcements`
+- `GET  /api/announcements`
+- `POST /api/alerts`
+- `GET  /api/analytics/teams`
+- `GET  /api/analytics/compare`
+
+---
+
+## Troubleshooting
+
+### App starts, but API returns 500
+- Usually DB connection issues:
+  - Check `MONGODB_URI`
+  - Atlas: verify IP/network allowlist and DB user credentials
+
+### Team session always unauthorized
+- Ensure `TEAM_SESSION_SECRET` is set
+- Clear cookies for `localhost:3000` and retry
+
+### AI endpoints fail
+- Ensure `GEMINI_API_KEY` is set and valid
+
+### Email sending fails
+- Prefer Gmail App Passwords (2FA enabled)
+- Or disable email by leaving `MAIL_USER` / `MAIL_PASS` empty (if supported)
 
 ---
 
-## 9. Lecturer Client-Side Architecture
-
-The lecturer interface is implemented using Next.js App Router and React components.  
-The client-side architecture follows a hierarchical component-based design.
-
-The architecture separates concerns into logical component groups:
-- GUIComponents – reusable UI elements (inputs, tables, charts, buttons)
-- UserComponents – lecturer authentication and profile-related components
-- TeamsComponents – team overview, team details, insights, alerts, reflections, and chatbot conversation history
-- AnnouncementsComponents – publishing and viewing announcements/tasks
-- AlertsComponents – alerts history and abnormal status notifications
-- Header – navigation menu and logout functionality
-
-The full client-side architecture diagram for the lecturer area is provided below.
-<img width="1911" height="650" alt="image" src="https://github.com/user-attachments/assets/05ad4d96-5cae-40a4-89e0-69d665dda3d1" />
-
----
+## Diagrams
+See `Diagrams/` for system and flow diagrams.
