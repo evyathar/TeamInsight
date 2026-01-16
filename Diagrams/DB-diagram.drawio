@@ -1,0 +1,180 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram name="ERD - Database Diagram" id="erd-diagram">
+    <mxGraphModel dx="1025" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user-entity" value="User" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=2;fontStyle=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="120" y="200" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="user-id" value="&lt;u&gt;_id&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="20" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-id-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="user-id" target="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-email" value="email" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="120" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-email-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="user-email" target="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-password" value="password" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="220" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-password-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="user-password" target="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-name" value="name" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="20" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-name-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="user-name" target="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-role" value="role" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="260" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-role-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="user-role" target="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-entity" value="Team" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=2;fontStyle=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="520" y="200" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="team-id" value="&lt;u&gt;_id&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="420" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-id-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-id" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-teamid" value="teamId" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="520" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-teamid-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-teamid" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-projectname" value="projectName" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="620" y="100" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-projectname-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-projectname" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-members" value="members[]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="655" y="170" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-members-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-members" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-status" value="status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="660" y="255" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-status-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-status" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-sentiment" value="avgSentiment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="520" y="280" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-sentiment-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-sentiment" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="team-points" value="points" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="420" y="280" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="team-points-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="team-points" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-manages" value="manages" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="330" y="240" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-manages-user" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="user-entity" target="rel-manages" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-manages-team" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="rel-manages" target="team-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-entity" value="GroupReflection" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=2;fontStyle=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="500" y="480" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-id" value="&lt;u&gt;_id&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="380" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-id-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-id" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-userid" value="&lt;u style=&quot;border-bottom-style: dashed;&quot;&gt;userId&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="480" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-userid-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-userid" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-teamid" value="&lt;u style=&quot;border-bottom-style: dashed;&quot;&gt;teamId&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="580" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-teamid-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-teamid" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-groupname" value="groupName" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="680" y="420" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-groupname-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-groupname" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-topic" value="projectTopic" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="380" y="500" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-topic-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-topic" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-history" value="conversation&#xa;History[]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="660" y="480" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-history-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-history" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-scores" value="scores" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="480" y="560" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-scores-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-scores" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-analysis" value="finalAnalysis" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="580" y="560" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reflection-analysis-line" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=1;endArrow=none;" parent="1" source="reflection-analysis" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-has-reflection" value="has" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="610" y="310" width="60" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-has-reflection-team" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="team-entity" target="rel-has-reflection" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-has-reflection-ref" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="rel-has-reflection" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-conducts-user" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="user-entity" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-creates" value="creates" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2E7D32;strokeWidth=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="190" y="450" width="60" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-creates-user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="user-entity" target="rel-creates" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="350" />
+              <mxPoint x="220" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-creates-reflection" style="edgeStyle=none;rounded=0;html=1;strokeColor=#1976D2;strokeWidth=2;endArrow=none;" parent="1" source="rel-creates" target="reflection-entity" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
